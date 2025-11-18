@@ -1,0 +1,23 @@
+# CODEOWNERS
+# These owners will be requested for review when someone opens a PR
+# https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Default owners for everything in the repo
+* @jedau
+
+# Documentation requires review from maintainers
+/docs/ @jedau
+
+# Test files require review
+/test/ @jedau
+
+# Page objects require review
+/pages/ @jedau
+
+# Core configuration changes require review
+/cucumber.js @jedau
+/tsconfig.json @jedau
+/package.json @jedau
+
+# GitHub workflows and actions require review
+/.github/ @jedau

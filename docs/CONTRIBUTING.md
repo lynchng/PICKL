@@ -4,11 +4,131 @@ Thank you for your interest in contributing to PICKL! This guide will help you s
 
 ## 📋 Table of Contents
 
+- [Getting Started with Contributions](#getting-started-with-contributions)
 - [Setting Up for Development](#setting-up-for-development)
 - [Code Contribution Guidelines](#code-contribution-guidelines)
 - [Adding New Features](#adding-new-features)
 - [Testing Best Practices](#testing-best-practices)
 - [Code Quality Standards](#code-quality-standards)
+
+---
+
+## Getting Started with Contributions
+
+### For External Contributors: Fork Workflow
+
+If you don't have write access to the repository, follow the fork workflow:
+
+#### 1. Fork the Repository
+
+1. Go to https://github.com/jedau/PICKL
+2. Click the **Fork** button (top right)
+3. This creates a copy under your account: `https://github.com/YOUR-USERNAME/PICKL`
+
+#### 2. Clone Your Fork
+
+```bash
+# Clone your forked repository
+git clone https://github.com/YOUR-USERNAME/PICKL.git
+cd PICKL
+
+# Add the original repository as "upstream"
+git remote add upstream https://github.com/jedau/PICKL.git
+
+# Verify remotes
+git remote -v
+# Should show:
+# origin    https://github.com/YOUR-USERNAME/PICKL.git (fetch)
+# origin    https://github.com/YOUR-USERNAME/PICKL.git (push)
+# upstream  https://github.com/jedau/PICKL.git (fetch)
+# upstream  https://github.com/jedau/PICKL.git (push)
+```
+
+#### 3. Keep Your Fork Updated
+
+Before starting new work, sync with the original repository:
+
+```bash
+# Fetch latest changes from upstream
+git fetch upstream
+
+# Switch to your main branch
+git checkout main
+
+# Merge upstream changes
+git merge upstream/main
+
+# Push updates to your fork
+git push origin main
+```
+
+#### 4. Create a Feature Branch
+
+```bash
+# Create and switch to a new branch
+git checkout -b feature/your-feature-name
+
+# Make your changes, then commit
+git add .
+git commit -m "feat: description of your changes"
+```
+
+#### 5. Push to Your Fork
+
+```bash
+# Push your feature branch to YOUR fork (origin)
+git push origin feature/your-feature-name
+
+# If it's your first push for this branch, Git might ask you to set upstream:
+git push --set-upstream origin feature/your-feature-name
+```
+
+#### 6. Create a Pull Request
+
+1. Go to your fork on GitHub: `https://github.com/YOUR-USERNAME/PICKL`
+2. Click **"Compare & pull request"** (GitHub will show this banner after pushing)
+3. Or go to: https://github.com/jedau/PICKL/compare
+   - Select: `base: main` ← `compare: YOUR-USERNAME:feature/your-feature-name`
+4. Fill in the PR template
+5. Click **"Create pull request"**
+6. Wait for code owner review
+
+#### 7. Update Your PR (if requested)
+
+If changes are requested during review:
+
+```bash
+# Make the requested changes
+git add .
+git commit -m "fix: address review feedback"
+
+# Push to the same branch
+git push origin feature/your-feature-name
+
+# The PR will automatically update!
+```
+
+### For Repository Collaborators: Direct Branch Workflow
+
+If you have write access to the repository:
+
+```bash
+# Clone the main repository
+git clone https://github.com/jedau/PICKL.git
+cd PICKL
+
+# Create feature branch
+git checkout -b feature/your-feature-name
+
+# Make changes and commit
+git add .
+git commit -m "feat: description of changes"
+
+# Push directly to the main repository
+git push origin feature/your-feature-name
+
+# Create PR on GitHub
+```
 
 ---
 
@@ -109,9 +229,31 @@ git commit -m "docs(architecture): add custom world pattern explanation"
 git commit -m "test(checkboxes): add scenario for disabled checkboxes"
 ```
 
+### Branch Protection
+
+The `main` branch is protected with the following rules:
+
+- ❌ **No direct pushes allowed** - All changes must go through Pull Requests
+- ❌ **No force pushes allowed** - Protects commit history integrity
+- ❌ **No branch deletion allowed** - Prevents accidental deletion
+- ✅ **Pull Requests require at least 1 approval** - Code review is mandatory
+- ✅ **All CI checks must pass** - Automated tests must succeed
+- ✅ **Branch must be up to date** - Must merge latest changes before merging PR
+
+**What this means for you:**
+
+- You cannot push directly to `main` with `git push origin main`
+- You cannot force push with `git push --force`
+- All contributions must follow the Pull Request workflow below
+
 ### Pull Request Process
 
 1. **Create a feature branch** from `main`
+   ```bash
+   git checkout main
+   git pull origin main
+   git checkout -b feature/your-feature-name
+   ```
 2. **Make your changes** following our coding standards
 3. **Write/update tests** for your changes
 4. **Update documentation** if needed
@@ -122,8 +264,16 @@ git commit -m "test(checkboxes): add scenario for disabled checkboxes"
    npm test              # Run all tests
    npm run test:smoke    # Run smoke tests
    ```
-6. **Create a Pull Request** using our [PR template](.github/pull_request_template.md)
-7. **Address review feedback** promptly
+6. **Commit and push your branch**:
+   ```bash
+   git add .
+   git commit -m "feat(scope): description of changes"
+   git push origin feature/your-feature-name
+   ```
+7. **Create a Pull Request** on GitHub using our [PR template](.github/pull_request_template.md)
+8. **Wait for review** - Code owners will be automatically assigned
+9. **Address review feedback** promptly
+10. **Maintainer will merge** once approved and all checks pass
 
 ---
 
