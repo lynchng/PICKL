@@ -1049,6 +1049,7 @@ npm test
 ```
 
 **What does `clean:all` remove?**
+
 - `test-results/` - Test execution results
 - `node_modules/.cache/` - Node modules cache
 - `playwright-report/` - Playwright HTML reports
