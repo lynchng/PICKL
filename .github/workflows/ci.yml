@@ -158,21 +158,17 @@ jobs:
           echo "🎉 Pre-commit hook tests passed!"
 
   test:
-    name: Test (Node ${{ matrix.node-version }})
+    name: Test
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: ['22.x', '23.x']
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js ${{ matrix.node-version }}
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version-file: '.nvmrc'
           cache: 'npm'
 
       - name: Install dependencies
@@ -183,7 +179,7 @@ jobs:
 
       - name: Run tests
         run: npm test
-        continue-on-error: true  # External test site may be unreachable
+        continue-on-error: true # External test site may be unreachable
 
       - name: Generate HTML report
         if: always()
@@ -193,7 +189,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: test-results-node-${{ matrix.node-version }}
+          name: test-results
           path: |
             test-results/
             cucumber-report.html
@@ -203,7 +199,7 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: screenshots-node-${{ matrix.node-version }}
+          name: screenshots
           path: test-results/**/*.png
           retention-days: 7
 
@@ -211,6 +207,6 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: videos-node-${{ matrix.node-version }}
+          name: videos
           path: test-results/**/*.webm
           retention-days: 7
