@@ -1,5 +1,7 @@
 # PICKL 🥒
 
+[![CI](https://github.com/jedau/PICKL/actions/workflows/ci.yml/badge.svg)](https://github.com/jedau/PICKL/actions/workflows/ci.yml)
+
 **P**laywright **I**ntegrated with **C**ucumber **K**ickoff **L**aunchpad
 
 PICKL is a modern BDD test automation boilerplate that combines Playwright's powerful browser automation with Cucumber's human-readable Gherkin syntax. Built with TypeScript and ESM, it provides everything you need to write, run, and maintain scalable end-to-end tests.
