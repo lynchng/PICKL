@@ -49,7 +49,7 @@ class VerboseFormatter extends Formatter {
     if (testCase) {
       this.totalScenarios++
       const worstResult = testCase.worstTestStepResult
-      const status = worstResult.status as messages.TestStepResultStatus
+      const status = worstResult.status
 
       if (status === messages.TestStepResultStatus.PASSED) {
         this.scenariosPassed++
