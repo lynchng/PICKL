@@ -42,7 +42,7 @@
     "semver": "^7.6.0"
   },
   "devDependencies": {
-    "@cucumber/cucumber": "^12.2.0",
+    "@cucumber/cucumber": "^12.3.0",
     "@playwright/test": "^1.56.1",
     "@types/debug": "^4.1.12",
     "@types/node": "^25.0.0",
