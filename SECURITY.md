@@ -77,9 +77,17 @@ When a security vulnerability is confirmed:
 
 - **Dependencies:** Minimize external dependencies
 - **Input Validation:** Always validate and sanitize user input
-- **Secrets Management:** Never commit credentials, API keys, or tokens
+- **Secrets Management:** Never commit credentials, API keys, or tokens (see [Secrets Management Guide](docs/SECRETS-MANAGEMENT.md))
 - **Error Handling:** Avoid exposing sensitive information in error messages
 - **Testing:** Include security test cases for new features
+
+### Handling Sensitive Data
+
+For comprehensive guidance on managing secrets and environment variables, see:
+
+- **[Secrets Management Guide](docs/SECRETS-MANAGEMENT.md)** - Best practices for handling sensitive data
+- **[.env.example](.env.example)** - Template for environment variables
+- **[.gitignore](.gitignore)** - Ensure sensitive files are excluded from version control
 
 ## Scope
 
@@ -110,5 +118,5 @@ If you have questions about this security policy, please open a discussion in th
 
 ---
 
-**Last Updated:** December 11, 2025  
-**Version:** 1.0
+**Last Updated:** December 17, 2025
+**Version:** 1.1

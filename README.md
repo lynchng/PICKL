@@ -70,7 +70,12 @@ PICKL is a modern BDD test automation boilerplate that combines Playwright's pow
 - [Pull Request Guide](docs/PULL-REQUEST.md) - PR best practices
 - [Naming Convention](docs/NAMING-CONVENTION.md) - Code naming standards
 
-### 🔧 Support
+### � Security
+
+- [Secrets Management](docs/SECRETS-MANAGEMENT.md) - Handling sensitive data and environment variables
+- [Security Policy](SECURITY.md) - Vulnerability reporting and security measures
+
+### �🔧 Support
 
 - [Troubleshooting](docs/TROUBLESHOOTING.md) - Solutions for common errors
 

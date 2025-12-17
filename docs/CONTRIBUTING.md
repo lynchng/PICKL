@@ -1245,6 +1245,9 @@ When reviewing code, check for:
 - ✅ Async operations use await
 - ✅ Locators are readonly
 - ✅ Methods have JSDoc comments
+- ✅ No hardcoded secrets or credentials (see [Secrets Management](SECRETS-MANAGEMENT.md))
+- ✅ Environment variables used correctly
+- ✅ `.env.example` updated if new variables added
 
 ---
 
@@ -1301,6 +1304,7 @@ Quick debugging options:
 - [Running Tests Guide](RUNNING-TESTS.md) - How to execute tests
 - [Common Mistakes](COMMON-MISTAKES.md) - Avoid these 28 common pitfalls
 - [Troubleshooting](TROUBLESHOOTING.md) - Solutions for common issues
+- [Secrets Management](SECRETS-MANAGEMENT.md) - Handling sensitive data and environment variables
 
 ---
 
