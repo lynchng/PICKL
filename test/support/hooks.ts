@@ -90,6 +90,8 @@ After(async function (this: ICustomWorld, { pickle, result }) {
     const video = page?.video()
     if (video && process.env.HEADLESS !== 'false') {
       try {
+        // Close the page first to ensure video is saved
+        await page?.close()
         const videoPath = await video.path()
         const videoBuffer = await readFile(videoPath)
         this.attach(videoBuffer, 'video/webm')
@@ -104,7 +106,9 @@ After(async function (this: ICustomWorld, { pickle, result }) {
   }
 
   // Cleanup
-  await page?.close()
+  if (!video || process.env.HEADLESS === 'false') {
+    await page?.close()
+  }
   await context?.close()
   await browser?.close()
 })
