@@ -57,7 +57,8 @@ jobs:
           # Conventional Commits regex pattern
           # Format: type(scope): description
           # Types: feat, fix, docs, style, refactor, test, chore, perf, ci, build, revert
-          PATTERN='^(feat|fix|docs|style|refactor|test|chore|perf|ci|build|revert)(\(.+\))?: .{1,}'
+          # Description must start with non-whitespace and be at least 3 characters
+          PATTERN='^(feat|fix|docs|style|refactor|test|chore|perf|ci|build|revert)(\(.+\))?: \S.{2,}'
 
           INVALID_COMMITS=()
 
