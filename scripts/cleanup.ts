@@ -90,12 +90,11 @@ async function cleanupDirectory(target: CleanupTarget): Promise<CleanupResult> {
         `⚠ Skipped: ${target.description} (${target.path}) - ${error instanceof Error ? error.message : 'Unknown error'}`,
       )
       return 'skipped'
-    } else {
-      debug(
-        `✗ Failed: ${target.description} (${target.path}) - ${error instanceof Error ? error.message : 'Unknown error'}`,
-      )
-      throw error
     }
+    debug(
+      `✗ Failed: ${target.description} (${target.path}) - ${error instanceof Error ? error.message : 'Unknown error'}`,
+    )
+    throw error
   }
 }
 

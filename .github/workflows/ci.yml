@@ -209,6 +209,68 @@ jobs:
       - name: Run linting
         run: npm run lint
 
+  coverage:
+    name: Test Coverage
+    runs-on: ubuntu-latest
+    if: github.event_name != 'schedule'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22.x'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Run tests with coverage
+        run: npm run test:coverage
+        env:
+          BASE_URL: https://the-internet.herokuapp.com
+          TAGS: not @skip
+
+      - name: Check coverage thresholds
+        run: npm run coverage:check
+
+      - name: Upload coverage reports
+        uses: actions/upload-artifact@v6
+        if: always()
+        with:
+          name: coverage-report
+          path: coverage/
+          retention-days: 30
+
+      - name: Generate coverage summary
+        if: always()
+        run: |
+          if [ ! -f coverage/coverage-summary.json ]; then
+            echo "⚠️ Coverage summary file not found" >> $GITHUB_STEP_SUMMARY
+            exit 0
+          fi
+
+          # Check if jq is available
+          if ! command -v jq &> /dev/null; then
+            echo "⚠️ jq not installed, skipping coverage summary" >> $GITHUB_STEP_SUMMARY
+            exit 0
+          fi
+
+          # Parse and display coverage summary
+          if ! SUMMARY=$(jq -r '.total | "- **Lines:** \(.lines.pct)%\n- **Statements:** \(.statements.pct)%\n- **Functions:** \(.functions.pct)%\n- **Branches:** \(.branches.pct)%"' coverage/coverage-summary.json 2>&1); then
+            echo "⚠️ Failed to parse coverage summary: $SUMMARY" >> $GITHUB_STEP_SUMMARY
+            exit 0
+          fi
+
+          echo "## 📊 Coverage Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "$SUMMARY" >> $GITHUB_STEP_SUMMARY
+
   verify-hooks:
     name: Verify Git Hooks
     runs-on: ubuntu-latest

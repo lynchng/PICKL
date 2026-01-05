@@ -1102,6 +1102,89 @@ For hands-on practice with test data, see [Training Exercises - Week 2](TRAINING
 
 ## Code Quality Standards
 
+PICKL enforces strict code quality standards through automated tools and CI/CD checks. All contributions must meet these standards before being merged.
+
+### Quality Metrics
+
+The project maintains the following quality thresholds:
+
+| Metric                       | Threshold                                                  | Enforcement        |
+| ---------------------------- | ---------------------------------------------------------- | ------------------ |
+| **Test Coverage**            | Lines: 80%, Functions: 80%, Branches: 75%, Statements: 80% | ✅ CI blocks merge |
+| **Cyclomatic Complexity**    | Max 10 per function                                        | ⚠️ Warning         |
+| **Function Length**          | Max 50 lines (excluding blanks/comments)                   | ⚠️ Warning         |
+| **Max Parameters**           | 4 parameters per function                                  | ⚠️ Warning         |
+| **Max Nesting Depth**        | 3 levels                                                   | ⚠️ Warning         |
+| **ESLint Errors**            | 0 errors                                                   | ✅ CI blocks merge |
+| **Security Vulnerabilities** | 0 high/critical                                            | ✅ CI blocks merge |
+
+### Code Quality Tools
+
+**ESLint** - Linting and static analysis
+
+- TypeScript strict rules
+- Complexity checks
+- Code smell detection
+- Security pattern enforcement
+
+**c8** - Test coverage tracking
+
+- Line, branch, function, and statement coverage
+- HTML and JSON reports generated in CI
+- Coverage artifacts retained for 30 days
+
+**CodeQL** - Security analysis
+
+- Weekly security scans
+- Vulnerability detection
+- Security hotspot identification
+
+**Prettier** - Code formatting
+
+- Consistent style enforcement
+- Runs automatically on commit via lint-staged
+
+### Running Quality Checks Locally
+
+**Linting:**
+
+```bash
+# Check for linting errors
+npm run lint
+
+# Auto-fix linting errors
+npm run lint:fix
+
+# Format code with Prettier
+npm run format
+```
+
+**Test Coverage:**
+
+```bash
+# Run tests with coverage
+npm run test:coverage
+
+# Check if coverage meets thresholds
+npm run coverage:check
+
+# View HTML coverage report (platform-specific)
+open coverage/index.html              # macOS
+xdg-open coverage/index.html          # Linux
+start coverage/index.html             # Windows (Powershell or cmd)
+# Or open coverage/index.html manually in your browser
+```
+
+**Full Quality Check:**
+
+```bash
+# Run everything before creating a PR
+npm run lint        # Linting
+npm run test        # Tests
+npm run test:coverage  # Coverage
+npm run coverage:check # Coverage validation
+```
+
 ### TypeScript Standards
 
 1. **Use strict typing:**

@@ -35,7 +35,7 @@ export class CheckboxesPage {
    * @returns True if checked, false otherwise
    */
   async isChecked(index: number): Promise<boolean> {
-    return await this.getCheckbox(index).isChecked()
+    return this.getCheckbox(index).isChecked()
   }
 
   /**
@@ -73,6 +73,6 @@ export class CheckboxesPage {
    * @returns The number of checkboxes
    */
   async getCheckboxCount(): Promise<number> {
-    return await this.checkboxes.count()
+    return this.checkboxes.count()
   }
 }

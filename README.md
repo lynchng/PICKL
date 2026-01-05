@@ -2,6 +2,8 @@
 
 [![CI](https://github.com/jedau/PICKL/actions/workflows/ci.yml/badge.svg)](https://github.com/jedau/PICKL/actions/workflows/ci.yml)
 [![Security](https://img.shields.io/badge/security-scanning-brightgreen)](https://github.com/jedau/PICKL/security)
+[![Code Quality](https://img.shields.io/badge/code%20quality-ESLint-blue)](https://eslint.org/)
+[![Coverage](https://img.shields.io/badge/coverage-check%20CI-success)](https://github.com/jedau/PICKL/actions/workflows/ci.yml)
 
 **P**laywright **I**ntegrated with **C**ucumber **K**ickoff **L**aunchpad
 
@@ -37,10 +39,14 @@ PICKL is a modern BDD test automation boilerplate that combines Playwright's pow
 
 ### 🎯 Quality Assurance
 
-- **ESLint + Prettier** - Consistent code formatting and linting
+- **ESLint + Prettier** - Consistent code formatting and linting with strict quality rules
+- **Complexity Limits** - Automated checks for cyclomatic complexity, function length, and nesting depth
+- **Code Coverage** - c8 coverage tracking with 80% threshold enforcement
+- **Security Scanning** - CodeQL and npm audit for vulnerability detection
 - **Page Object Model** - Maintainable test structure with reusable page objects
 - **Custom World** - Shared context across scenarios with automatic browser management
 - **Hooks & Formatters** - Extensible test lifecycle with custom formatters
+- **Git Hooks** - Pre-commit quality checks and commit message validation
 
 ---
 

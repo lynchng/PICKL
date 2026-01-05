@@ -47,6 +47,27 @@ export default tseslint.config(
       curly: ['error', 'all'],
       'linebreak-style': ['error', 'unix'],
 
+      // Complexity limits
+      complexity: ['warn', { max: 10 }],
+      'max-depth': ['warn', { max: 3 }],
+      'max-lines-per-function': ['warn', { max: 50, skipBlankLines: true, skipComments: true }],
+      'max-params': ['warn', { max: 4 }],
+
+      // Code smell prevention
+      'no-duplicate-imports': 'error',
+      'no-return-await': 'off', // Disabled to avoid conflict; use @typescript-eslint/return-await for nuanced handling in try-catch only
+      '@typescript-eslint/return-await': ['error', 'in-try-catch'],
+      'consistent-return': 'error',
+      'no-else-return': ['error', { allowElseIf: false }],
+      'no-lonely-if': 'error',
+      'no-nested-ternary': 'warn',
+      'prefer-template': 'error',
+
+      // Security
+      'no-eval': 'error',
+      'no-implied-eval': 'error',
+      'no-new-func': 'error',
+
       // Test-specific allowances
       '@typescript-eslint/no-non-null-assertion': 'off', // Useful in test assertions
     },
