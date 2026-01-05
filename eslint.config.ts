@@ -55,7 +55,7 @@ export default tseslint.config(
 
       // Code smell prevention
       'no-duplicate-imports': 'error',
-      'no-return-await': 'off', // Handled by @typescript-eslint/return-await
+      'no-return-await': 'off', // Disabled to avoid conflict; use @typescript-eslint/return-await for nuanced handling in try-catch only
       '@typescript-eslint/return-await': ['error', 'in-try-catch'],
       'consistent-return': 'error',
       'no-else-return': ['error', { allowElseIf: false }],

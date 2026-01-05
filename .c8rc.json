@@ -1,7 +1,6 @@
 {
   "all": true,
   "include": ["pages/**/*.ts", "test/support/**/*.ts"],
-  "_coverageDesignNote": "Test support utilities (test/support/**/*.ts) are included in coverage because they contain reusable test logic that should be validated, while Cucumber step definitions (test/steps/**/*.ts) are excluded as thin glue code that merely delegates to page objects and support helpers.",
   "exclude": [
     "test/steps/**/*.ts",
     "test/features/**/*.feature",
