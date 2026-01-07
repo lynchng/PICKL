@@ -409,11 +409,15 @@ jobs:
           echo "🎉 Pre-commit hook tests passed!"
 
   test:
-    name: Test
-    runs-on: ubuntu-latest
+    name: Test (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
     permissions:
       contents: read
       pull-requests: write
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
 
     steps:
       - name: Checkout code
@@ -446,7 +450,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v6
         with:
-          name: test-results
+          name: test-results-${{ matrix.os }}
           path: |
             test-results/
             cucumber-report.html
@@ -456,7 +460,7 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v6
         with:
-          name: screenshots
+          name: screenshots-${{ matrix.os }}
           path: test-results/**/*.png
           retention-days: 30
 
@@ -464,7 +468,7 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v6
         with:
-          name: videos
+          name: videos-${{ matrix.os }}
           path: test-results/**/*.webm
           retention-days: 30
 
