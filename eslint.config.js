@@ -13,8 +13,16 @@ export default [
   prettierConfig,
 
   // TypeScript files WITH type checking
-  ...tseslint.configs.recommendedTypeChecked,
-  ...tseslint.configs.stylisticTypeChecked,
+  ...tseslint.configs.recommendedTypeChecked.map(config => ({
+    ...config,
+    files: ['**/*.ts'],
+    ignores: ['*.config.ts', 'scripts/generate-report.ts', 'types/*.d.ts'],
+  })),
+  ...tseslint.configs.stylisticTypeChecked.map(config => ({
+    ...config,
+    files: ['**/*.ts'],
+    ignores: ['*.config.ts', 'scripts/generate-report.ts', 'types/*.d.ts'],
+  })),
 
   // Custom rules for TypeScript files
   {
@@ -95,6 +103,7 @@ export default [
       'dist/**',
       '*.js',
       '*.mjs',
+      'coverage/**',
       'allure-results/**',
       'allure-report/**',
       'test-results/**',
