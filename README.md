@@ -90,7 +90,7 @@ PICKL is a modern BDD test automation boilerplate that combines Playwright's pow
 ## 🚀 Quick Start
 
 ```bash
-# Clone the repository
+# Fork the repository first on GitHub, then clone your fork
 git clone https://github.com/YOUR-USERNAME/PICKL.git
 cd PICKL
 

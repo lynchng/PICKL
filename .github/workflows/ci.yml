@@ -269,19 +269,23 @@ jobs:
             exit 1
           fi
 
-          # Parse the report once to extract all needed values and failed test names
+          # Parse the report in a single pass to extract all needed values
           RESULTS=$(jq -r '
-            [.[] | .elements[]] as $all_scenarios |
-            [$all_scenarios[] | select(.steps[]?.result.status == "failed")] as $failed |
-            [$all_scenarios[] | select(.tags[]?.name == "@fail")] as $fail_tagged |
-            [$failed[] | select(([.tags[]?.name] | contains(["@fail"]) | not))] as $failed_without_fail |
-            {
-              total: ($all_scenarios | length),
-              failed: ($failed | length),
-              fail_tagged: ($fail_tagged | length),
-              failed_without_fail: ($failed_without_fail | length),
-              names: ([$failed_without_fail[] | .name] | join("\n  - "))
-            } | "\(.total)\t\(.failed)\t\(.fail_tagged)\t\(.failed_without_fail)\t\(.names)"
+            reduce (.[] | .elements[]) as $scenario (
+              {total: 0, failed: 0, fail_tagged: 0, failed_without_fail: 0, names: []};
+              .total += 1 |
+              if ($scenario.steps[]?.result.status == "failed") then
+                .failed += 1 |
+                if ($scenario.tags[]?.name == "@fail") then
+                  .fail_tagged += 1
+                else
+                  .failed_without_fail += 1 |
+                  .names += [$scenario.name]
+                end
+              elif ($scenario.tags[]?.name == "@fail") then
+                .fail_tagged += 1
+              else . end
+            ) | "\(.total)\t\(.failed)\t\(.fail_tagged)\t\(.failed_without_fail)\t(.names | join("\n  - "))"
           ' test-results/cucumber-report.json)
 
           # Extract values from tab-separated output
@@ -299,7 +303,7 @@ jobs:
           else
             echo "❌ Unexpected test failures detected!"
             echo "  $FAILED_WITHOUT_FAIL_TAG test(s) without @fail tag failed"
-            [ -n "$FAILED_NAMES" ] && echo -e "  - $FAILED_NAMES"
+            [ -n "$FAILED_NAMES" ] && echo "  - $FAILED_NAMES"
             exit 1
           fi
 
