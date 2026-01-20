@@ -269,11 +269,23 @@ jobs:
             exit 1
           fi
 
-          # Parse the report to count failures
-          TOTAL_SCENARIOS=$(jq '[.[] | .elements[]] | length' test-results/cucumber-report.json)
-          FAILED_SCENARIOS=$(jq '[.[] | .elements[] | select(.steps[]?.result.status == "failed")] | length' test-results/cucumber-report.json)
-          FAIL_TAGGED=$(jq '[.[] | .elements[] | select(.tags[]?.name == "@fail")] | length' test-results/cucumber-report.json)
-          FAILED_WITHOUT_FAIL_TAG=$(jq '[.[] | .elements[] | select(.steps[]?.result.status == "failed" and ([.tags[]?.name] | contains(["@fail"]) | not))] | length' test-results/cucumber-report.json)
+          # Parse the report once to extract all needed values and failed test names
+          RESULTS=$(jq -r '
+            [.[] | .elements[]] as $all_scenarios |
+            [$all_scenarios[] | select(.steps[]?.result.status == "failed")] as $failed |
+            [$all_scenarios[] | select(.tags[]?.name == "@fail")] as $fail_tagged |
+            [$failed[] | select(([.tags[]?.name] | contains(["@fail"]) | not))] as $failed_without_fail |
+            {
+              total: ($all_scenarios | length),
+              failed: ($failed | length),
+              fail_tagged: ($fail_tagged | length),
+              failed_without_fail: ($failed_without_fail | length),
+              names: ([$failed_without_fail[] | .name] | join("\n  - "))
+            } | "\(.total)\t\(.failed)\t\(.fail_tagged)\t\(.failed_without_fail)\t\(.names)"
+          ' test-results/cucumber-report.json)
+
+          # Extract values from tab-separated output
+          IFS=$'\t' read -r TOTAL_SCENARIOS FAILED_SCENARIOS FAIL_TAGGED FAILED_WITHOUT_FAIL_TAG FAILED_NAMES <<< "$RESULTS"
 
           echo "📊 Test Results:"
           echo "  Total scenarios: $TOTAL_SCENARIOS"
@@ -287,7 +299,7 @@ jobs:
           else
             echo "❌ Unexpected test failures detected!"
             echo "  $FAILED_WITHOUT_FAIL_TAG test(s) without @fail tag failed"
-            jq -r '[.[] | .elements[] | select(.steps[]?.result.status == "failed" and ([.tags[]?.name] | contains(["@fail"]) | not)) | .name] | join("\n  - ")' test-results/cucumber-report.json
+            [ -n "$FAILED_NAMES" ] && echo -e "  - $FAILED_NAMES"
             exit 1
           fi
 
