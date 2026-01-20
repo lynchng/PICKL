@@ -93,7 +93,7 @@ We won't get into those details here, instead we're going to focus on how the ch
 
   ```
     git checkout main
-    git pull 
+    git pull
     git checkout -
     git merge main
   ```
