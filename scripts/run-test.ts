@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { exec } from 'child_process'
+import { execSync } from 'child_process'
 import 'dotenv/config'
 
 // Parse command line arguments
@@ -30,11 +30,4 @@ const nodeOptions = existingNodeOptions
 
 const command = `cross-env NODE_OPTIONS="${nodeOptions}" cucumber-js --config cucumber.js --import 'test/support/**/*.ts' --import 'test/steps/**/*.ts' --format ./test/support/verbose-formatter.ts --format json:test-results/cucumber-report.json ${tagsOption} ${featurePath}`
 
-const child = exec(command, error => {
-  if (error) {
-    process.exit(error.code ?? 1)
-  }
-})
-
-child.stdout?.pipe(process.stdout)
-child.stderr?.pipe(process.stderr)
+execSync(command, { stdio: 'inherit' })

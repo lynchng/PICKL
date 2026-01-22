@@ -58,9 +58,10 @@ So you want to start doing automation? Well, you came to the right place! Follow
 
 ```bash
    npm install
-   (If Playwright is not installed) npx playwright install
-   (If cross-env is not installed) npm install --global cross-env
+   npx playwright install
 ```
+
+**Note:** `npx playwright install` is **required** to download Playwright browsers. Skipping this step will cause test failures with "Executable doesn't exist" or "Failed to attach video: ENOENT" errors.
 
 ### 5. Finishing touches
 

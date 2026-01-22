@@ -137,7 +137,7 @@ git push origin feature/your-feature-name
 
 ### Prerequisites
 
-1. **Node.js**: v22.21.1 or higher (check `.nvmrc`)
+1. **Node.js**: v22.22.0 or higher (check `.nvmrc`)
 2. **Git**: Latest version
 3. **VS Code**: Recommended IDE with extensions (see `.vscode/extensions.json`)
 

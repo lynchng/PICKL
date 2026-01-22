@@ -102,7 +102,7 @@ cat package.json | grep '"type"'
 
 # Check Node version
 node --version
-# Should be v22.21.1 or compatible
+# Should be v22.22.0 or compatible
 
 # Use correct Node version
 nvm use
@@ -245,6 +245,44 @@ Then(
 ---
 
 ## Browser Issues
+
+### Error: "Failed to attach video: ENOENT"
+
+**Symptom**:
+
+```
+Failed to attach video: ENOENT: no such file or directory, open 'test-results/videos/...'
+```
+
+**Cause**: Video recording directory doesn't exist or Playwright browsers not installed.
+
+**Solution**:
+
+```bash
+# 1. Install Playwright browsers (most common cause)
+npx playwright install
+
+# 2. Manually create directories (if needed)
+mkdir -p test-results/videos test-results/traces test-results/screenshots
+
+# Windows (PowerShell):
+New-Item -ItemType Directory -Force -Path test-results/videos, test-results/traces, test-results/screenshots
+
+# 3. Run tests
+npm test
+```
+
+**Why this happens:**
+
+- Fresh repository clones don't have `test-results` directories (gitignored)
+- Tests fail before `BeforeAll` hook creates directories
+- Playwright browsers not installed causes early test failures
+
+**Prevention:**
+
+The `BeforeAll` hook automatically creates directories, but only if tests start successfully. Always run `npx playwright install` after cloning.
+
+---
 
 ### Error: "Executable doesn't exist"
 
