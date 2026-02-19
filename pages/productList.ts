@@ -11,7 +11,7 @@ export class productList {
   /**
    * Click [ + ] button to increase the quantity
    */
-  async incrementBtn() {
+  async clickIncrementBtn() {
     const broccoliProduct = this.page.locator('.product', { hasText: 'Brocolli - 1 Kg' })
     const increaseButton = broccoliProduct.locator('.increment')
     await increaseButton.click()
@@ -20,7 +20,7 @@ export class productList {
   /**
    * Click [ - ] button to decrease the quantity
    */
-  async decrementBtn() {
+  async clickDecrementBtn() {
     const broccoliProduct = this.page.locator('.product', { hasText: 'Brocolli - 1 Kg' })
     const decreaseButton = broccoliProduct.locator('.decrement')
     await decreaseButton.click()
@@ -32,5 +32,16 @@ export class productList {
   async openCartModal() {
     const orderPage = new placeOrder(this.page)
     await orderPage.openCartModal()
+  }
+
+  /**
+   * Remove product from the cart
+   */
+  async clickRemoveBtn() {
+    await this.page.waitForSelector('.cart-preview.active', { state: 'visible' })
+    const removeButton = this.page.locator('.cart-item .product-remove')
+    await removeButton.waitFor({ state: 'visible' })
+    await removeButton.click()
+    await this.page.waitForSelector('.cart-empty-selector', { timeout: 5000 })
   }
 }

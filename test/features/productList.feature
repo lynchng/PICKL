@@ -29,7 +29,7 @@ Scenario: Removing a product in the cart modal
   And the Items and Price labels should reflect the added product in the header
   When I click on the cart icon
   Then the Items and Price labels should reflect the added product in the header
-  # When I click the [ X ] button to remove the product
+  When I click the [ X ] button to remove the product
   # Then the cart should be empty and the labels should reflect the removed product
 
 

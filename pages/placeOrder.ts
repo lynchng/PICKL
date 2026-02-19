@@ -17,7 +17,7 @@ export class placeOrder {
   /**
    * Click ADD TO CART button
    */
-  async addToCartBtn(productName = 'Brocolli - 1 Kg') {
+  async clickAddToCartBtn(productName = 'Brocolli - 1 Kg') {
     const button = this.addToCartButton(productName)
     await button.click()
   }
@@ -77,7 +77,7 @@ export class placeOrder {
   /**
    * Click PROCEED TO CHECKOUT button from cart modal
    */
-  async proceedToCheckoutBtn() {
+  async clickProceedToCheckoutBtn() {
     const cartModal = this.page.locator('.cart-preview')
     await cartModal.waitFor({ state: 'visible', timeout: 5000 })
 
@@ -89,7 +89,7 @@ export class placeOrder {
   /**
    * Click Place Order button
    */
-  async placeOrderBtn() {
+  async clickPlaceOrderBtn() {
     const placeOrderButton = this.page.locator('button', { hasText: 'Place Order' })
     await placeOrderButton.click()
   }
@@ -97,7 +97,7 @@ export class placeOrder {
   /**
    * Click PROCEED button from "Country and Terms & Conditions" page
    */
-  async proceedBtn() {
+  async clickProceedBtn() {
     const proceedButton = this.page.locator('button', { hasText: 'Proceed' })
     await proceedButton.click()
   }
@@ -130,5 +130,15 @@ export class placeOrder {
     const broccoliProduct = this.page.locator('.product', { hasText: 'Brocolli - 1 Kg' })
     const decreaseButton = broccoliProduct.locator('.decrement')
     await decreaseButton.click()
+  }
+
+  /**
+   * Verify the error message
+   */
+  async errorMessage() {
+    const errorMsgContainer = this.page.locator('.wrapperTwo .errorAlert')
+    await errorMsgContainer.waitFor({ state: 'visible', timeout: 5000 })
+    const msgText = await errorMsgContainer.innerText()
+    expect(msgText).toContain('Please accept Terms & Conditions - Required')
   }
 }

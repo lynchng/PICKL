@@ -1,6 +1,6 @@
 import { Given, Then, When } from '@cucumber/cucumber'
 import { Page } from '@playwright/test'
-import { placeOrder } from '../../pages/PlaceOrder.js'
+import { placeOrder } from '../../pages/placeOrder.js'
 import { ICustomWorld } from '../support/world.js'
 
 const PRODUCT_BROCOLLI = 'Brocolli - 1 Kg'
@@ -22,7 +22,7 @@ When('I click the ADD TO CART button', async function (this: ICustomWorld) {
   }
 
   const placeOrderPage = new placeOrder(this.page)
-  await placeOrderPage.addToCartBtn(PRODUCT_BROCOLLI)
+  await placeOrderPage.clickAddToCartBtn(PRODUCT_BROCOLLI)
 })
 
 Then('I should see ✔ ADDED message', async function (this: ICustomWorld) {
@@ -58,7 +58,7 @@ When('I click the PROCEED TO CHECKOUT button', async function (this: ICustomWorl
   await placeOrderPage.openCartModal()
 
   // Click PROCEED TO CHECKOUT button
-  await placeOrderPage.proceedToCheckoutBtn()
+  await placeOrderPage.clickProceedToCheckoutBtn()
 })
 
 Then(
@@ -88,7 +88,7 @@ When('I click the Place Order button', async function (this: ICustomWorld) {
   const placeOrderPage = new placeOrder(this.page)
 
   // Click Place Order button
-  await placeOrderPage.placeOrderBtn()
+  await placeOrderPage.clickPlaceOrderBtn()
 })
 
 Then(
@@ -139,7 +139,7 @@ Then('I click the Proceed button', async function (this: ICustomWorld) {
   const placeOrderPage = new placeOrder(this.page)
 
   // Click the Proceed button
-  await placeOrderPage.proceedBtn()
+  await placeOrderPage.clickProceedBtn()
 })
 
 Then('I should see the order success message', async function () {
@@ -149,4 +149,15 @@ Then('I should see the order success message', async function () {
 
   const placeOrderPage = new placeOrder(this.page as Page)
   await placeOrderPage.verifyOrderSuccessMessage()
+})
+
+// ----> Scenario: Country and Terms & Conditions Page <---- //
+
+Then('I should see an error message', async function (this: ICustomWorld) {
+  if (!this.page) {
+    throw new Error('Page is not initialized')
+  }
+
+  const placeOrderPage = new placeOrder(this.page)
+  await placeOrderPage.errorMessage()
 })

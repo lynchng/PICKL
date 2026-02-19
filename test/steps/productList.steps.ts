@@ -10,7 +10,7 @@ When('I click [ + ] button', async function (this: ICustomWorld) {
   }
 
   const productPage = new productList(this.page)
-  await productPage.incrementBtn()
+  await productPage.clickIncrementBtn()
 })
 
 // ----> Scenario: Clicking [ - ] button to decrease the quantity of the product <---- //
@@ -21,7 +21,7 @@ Then('I click [ - ] button', async function (this: ICustomWorld) {
   }
 
   const productPage = new productList(this.page)
-  await productPage.decrementBtn()
+  await productPage.clickDecrementBtn()
 })
 
 // ----> Scenario: Removing a product in the cart modal <---- //
@@ -35,11 +35,11 @@ When('I click on the cart icon', async function (this: ICustomWorld) {
   await productPage.openCartModal()
 })
 
-// When('I click the [ X ] button to remove the product', async function (this: ICustomWorld) {
-//   if (!this.page) {
-//     throw new Error('Page is not initialized')
-//   }
+When('I click the [ X ] button to remove the product', async function (this: ICustomWorld) {
+  if (!this.page) {
+    throw new Error('Page is not initialized')
+  }
 
-//   const productPage = new productList(this.page)
-//   await productPage.removeProduct()
-// })
+  const productPage = new productList(this.page)
+  await productPage.clickRemoveBtn()
+})
