@@ -1,6 +1,6 @@
 import { Given, Then, When } from '@cucumber/cucumber'
 import { Page } from '@playwright/test'
-import { placeOrder } from '../../pages/placeOrder.js'
+import { placeOrder } from '../../pages/PlaceOrder.js'
 import { ICustomWorld } from '../support/world.js'
 
 const PRODUCT_BROCOLLI = 'Brocolli - 1 Kg'
