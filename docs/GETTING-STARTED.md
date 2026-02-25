@@ -2,127 +2,306 @@
 
 ➤ [Home](../README.md)
 
-So you want to start doing automation? Well, you came to the right place! Follow the steps below to get started on your journey.
+Follow these steps to set up PICKL on your local machine and run your first automated test.
 
 ---
 
-### 1. Don't Panic
+## 🧘 Don't Panic
 
-- Breathe in. Breathe out. Let it all flow.
-- If this is the second time you're going through these steps, you can skip ahead to specific sections or you can check out the [What the FAQ](#what-the-faq) section if your queries are answered there.
-- Ready? Steady? Alright, let's go.
+Breathe in. Breathe out. Let it all flow.
 
-### 2. Setup your local environment
+Setting up a new automation framework can feel overwhelming, but you've got this! These steps are designed to get you up and running smoothly. If this is your second time through, feel free to skip ahead to specific sections. Running into issues? Check the [FAQ](#faq) or [Troubleshooting](#troubleshooting) section - we've got your back.
 
-- You can use any IDE that you're comfortable with, but the extension recommendations included in the repository is compatible with [Visual Studio Code](https://code.visualstudio.com/download)
-- Typescript is the language of choice for PICKL, so if you don't have NodeJS on your local machine, installing NVM might be a good option. You can refer to this installation guide to help you get set up: [NVM Install Guide](https://www.freecodecamp.org/news/node-version-manager-nvm-install-guide/)
-- If you already have the latest NodeJS installed or you prefer to use just the latest stable version, that's fine. You can skip ahead to the next step.
-- Once you have NVM set up, install the latest Node LTS using these commands on your terminal:
+Ready? Steady? Let's go! 🚀
+
+---
+
+## Prerequisites
+
+Before you begin, make sure you have:
+
+1. **Git** - [Download Git](https://github.com/git-guides/install-git)
+2. **Node.js v22.22.0 or higher** - Check `.nvmrc` for the exact version
+3. **Visual Studio Code** (recommended) - [Download VS Code](https://code.visualstudio.com/download)
+
+---
+
+## Step 1: Install Node.js
+
+### Option A: Using NVM (Recommended)
+
+NVM lets you manage multiple Node.js versions easily.
+
+**Install NVM:**
+
+- Follow the [NVM Install Guide](https://www.freecodecamp.org/news/node-version-manager-nvm-install-guide/)
+- **Windows users:** Restart your machine after installation
+
+**Install and use Node.js:**
 
 ```bash
-   nvm install --lts
-   nvm use --lts
+nvm install 22.22.0
+nvm use 22.22.0
 ```
 
-- _Tip for Windows users: After installing NVM, restart your local machine for the changes to take effect_
-- As of writing, the latest LTS version is `22.11.0`. Please ensure your Node.js version matches this for compatibility. We're QA... of course we always use the latest stable LTS instead of the latest version because we value stability, compatibility, and minimized exposure to breaking changes
-- Configure Git on your local:
-  - Download Git using this helpful guide: [Install Git](https://github.com/git-guides/install-git)
-  - It doesn't really matter if you prefer using the command line or GUI, you won't be judged. Just _git_ it done :confused:
-  - If you prefer to use GUI, you may want to check out Sourcetree. It's a very user-friendly app!
-  - We'll get back to Git configuration later after we download the repository
+### Option B: Direct Installation
 
-### 3. Setup your GitHub account
+If you already have Node.js v22.22.0+ installed, you're good to go. Skip to Step 2.
 
-- Make sure that you have access to the [PICKL repository](https://github.com/jedau/PICKL)
-- If you don't have access, reach out to the repository maintainer to help you get permission
-- There's really not much to set up except to add your [SSH Key](https://github.com/settings/keys)
+---
 
-### 4. Clone the repository
+## Step 2: Fork and Clone the Repository
 
-- Go to the repository on GitHub, and click on the `Fork` button
-- On your forked repository, click on the `Code` button
-- Copy the git command from the dropdown and execute it on your local. As of writing, the command is `git clone git@github.com:<YOUR-USERNAME>/PICKL.git`
-- If you're in the terminal, make sure that you're in the directory where you want the repository to be located
-- Once you've cloned the repository, go into that directory (`cd PICKL`) and configure your Git credentials using the following commands:
+1. **Fork the repository** on GitHub:
+   - Go to https://github.com/jedau/PICKL
+   - Click the **Fork** button (top right)
 
-```bash
-   git config --local user.name "<INSERT YOUR NAME HERE>"
-   git config --local user.email "<INSERT YOUR EMAIL HERE>"
+2. **Clone your fork:**
+
+   ```bash
+   git clone https://github.com/YOUR-USERNAME/PICKL.git
+   cd PICKL
+   ```
+
+3. **Configure Git:**
+   ```bash
+   git config --local user.name "Your Name"
+   git config --local user.email "your.email@example.com"
    git config --local pull.rebase false
    git config --local push.autosetupremote true
-```
-
-- _Note: For me, I've set up a separate gitconfig file for these credentials, but that's because I have separate Git identities on my local. If you're not switching between credentials, the above commands would work fine. Otherwise, you might be overengineering simple credentials_ :sweat_smile:
-- Run the following commands to finish the initial setup:
-
-```bash
-   npm install
-   npx playwright install
-```
-
-**Note:** `npx playwright install` is **required** to download Playwright browsers. Skipping this step will cause test failures with "Executable doesn't exist" or "Failed to attach video: ENOENT" errors.
-
-### 5. Finishing touches
-
-- Open the project on Visual Studio Code, and then go to the Extensions tab indicated by this icon:
-
-![extension](https://t9004120740.p.clickup-attachments.com/t9004120740/bc366af0-28ac-49b7-ac2b-e412e15d18df/image.png)
-
-- You should be prompted to install several recommended extensions. I recommend you install them. They're not required, but they will make your automating life easier. If you didn't see them, here are the list of recommended extensions:
-  - [Cucumber (Gherkin) Full Support](https://marketplace.visualstudio.com/items?itemName=alexkrechik.cucumberautocomplete) by [Alexander Krechik](https://marketplace.visualstudio.com/publishers/alexkrechik)
-  - [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
-  - [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
-  - [EditorConfig for VSCode](https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig)
-- Make your IDE your own. Customize it however you want, you're going to be using it a lot!
-
-### 6. Try it out!
-
-- Congratulations on making it this far! That wasn't so hard, wasn't it!? Wasn't it? :confused:
-- In a terminal pointing to the `PICKL` repository, run `npm test` and watch the magic happen. This should run all of the available tests. If it doesn't, try to retrace your steps and see if you're missing anything
-- If you encounter any errors, check the [Troubleshooting Guide](TROUBLESHOOTING.md) for solutions
-- For comprehensive test execution options (tags, browsers, specific files, etc.), see the [Running Tests Guide](RUNNING-TESTS.md)
-
-### 7. What's Next?
-
-Now that you have PICKL set up, here are your next steps:
-
-**For Learners**: Follow the structured [Learning Path](LEARNING-PATH.md) - a 3-week intensive program to master BDD automation.
-
-**For Contributors**: Read the [Contributing Guide](CONTRIBUTING.md) to understand coding standards and workflow.
-
-**For Test Writers**: Review [Writing Tests](WRITING-TESTS.md) for Gherkin syntax and [API Reference](API-REFERENCE.md) for available Page Objects.
-
-**New to BDD?**: Check out the [Glossary](GLOSSARY.md) to familiarize yourself with BDD, Playwright, and testing terminology.
-
-**Need Help?**: Check [Common Mistakes](COMMON-MISTAKES.md) to avoid pitfalls and [Troubleshooting](TROUBLESHOOTING.md) if you encounter issues.
+   ```
 
 ---
 
-## What the FAQ
+## Step 3: Install Dependencies
 
-So you weren't able to successfully set up your local on your first try. That's okay! We all have different local machines, and we're setting up in different circumstances. No need to be upset, we'll work through it together. Check out some frequently asked questions below, or add yours if you've encountered issues that you were able to resolve:
+```bash
+npm install
+```
 
-#### I have an existing NodeJS on my local, what should I do?
+This command:
 
-> The [aforementioned NVM](#2-setup-your-local-environment) deals with all official versions of NodeJS, so you wouldn't need to keep your own version. Uninstall the one in your local version and follow the step above. For Windows users, you may need to restart your machine after installing so that the PATH would be updated.
+- Installs all required packages
+- Sets up Git hooks (pre-commit, commit-msg validation)
+- Prepares your development environment
 
-#### I have other projects using other versions of NodeJS, will installing NVM break them?
+---
 
-> Of course not! With NVM, you can maintain multiple versions of NodeJS at the same time. You can install the latest stable for this, and the specific node version for the other projects. You can switch node versions by using `node use <VERSION>` on your terminal whenever you want to use a different version of NodeJS
+## Step 4: Install Playwright Browsers
 
-You didn't find the answer you were looking for? Check the [Troubleshooting Guide](TROUBLESHOOTING.md) or open an issue on the repository and we'll work it out!
+```bash
+npx playwright install
+```
+
+**⚠️ This step is required!** Skipping it will cause test failures:
+
+- "Executable doesn't exist"
+- "Failed to attach video: ENOENT"
+
+---
+
+## Step 5: Configure Environment Variables
+
+**Create your local `.env` file:**
+
+```bash
+# For Mac/Linux:
+cp .env.example .env
+
+# For Windows:
+copy .env.example .env
+```
+
+### Why This Matters
+
+**`.env.example`** - Template file committed to Git
+
+- Contains all available configuration options with example values
+- Safe to commit (no sensitive data)
+- Updated by maintainers when new variables are added
+
+**`.env`** - Your personal configuration (gitignored)
+
+- Created from `.env.example`
+- Contains your local settings
+- **Never committed to Git** (contains environment-specific values)
+- Safe place to customize settings without affecting others
+
+### What's Inside
+
+```dotenv
+# Debug logging (commented out by default)
+# DEBUG=framework:*,test:*
+
+# Browser display mode
+HEADLESS=true
+
+# Browser type (chromium, firefox, webkit)
+BROWSER=chromium
+
+# Base URL for your tests
+BASE_URL=https://the-internet.herokuapp.com
+
+# Tag filtering
+TAGS=not @skip
+```
+
+**Default settings work out of the box** - no need to modify unless you want to customize your local environment.
+
+---
+
+## Step 6: Install VS Code Extensions (Recommended)
+
+Open the project in VS Code. You'll be prompted to install recommended extensions:
+
+- **Cucumber (Gherkin) Full Support** - Syntax highlighting and autocomplete
+- **ESLint** - Code linting
+- **Prettier** - Code formatting
+- **EditorConfig** - Consistent editor settings
+- **Playwright Test for VSCode** - Debug tests visually
+
+Click **Install All** when prompted, or install them manually from the Extensions tab.
+
+---
+
+## Step 7: Run Your First Test
+
+```bash
+npm test
+```
+
+You should see tests running with emoji indicators:
+
+- ⏳ Running
+- ✅ Passed
+- ❌ Failed
+- ⊘ Skipped
+
+**If tests fail**, check the [Troubleshooting Guide](TROUBLESHOOTING.md).
+
+---
+
+## Step 8: View the Test Report
+
+```bash
+npm run report
+```
+
+This generates an HTML report and opens it in your browser automatically.
+
+---
+
+## What's Next?
+
+Choose your path based on your goals:
+
+**📚 New to BDD or Playwright?**
+
+- Read [Why BDD?](WHY-BDD.md) - Understand the benefits and philosophy
+- Start with the [Learning Path](LEARNING-PATH.md) - A structured 3-week program
+- Review the [Glossary](GLOSSARY.md) for terminology
+
+**✍️ Ready to Write Tests?**
+
+- Read [Writing Tests](WRITING-TESTS.md) for Gherkin syntax
+- Check [API Reference](API-REFERENCE.md) for available Page Objects
+- See [Running Tests](RUNNING-TESTS.md) for execution options
+
+**🤝 Want to Contribute?**
+
+- Follow the [Contributing Guide](CONTRIBUTING.md)
+- Review [Branching Strategy](BRANCHING-STRATEGY.md)
+- Learn [Naming Conventions](NAMING-CONVENTION.md)
+
+**⚠️ Having Issues?**
+
+- Check [Common Mistakes](COMMON-MISTAKES.md) (28 common pitfalls)
+- See [Troubleshooting](TROUBLESHOOTING.md) for solutions
+
+---
+
+## FAQ
+
+### I already have Node.js installed. Do I need NVM?
+
+Not required if you already have v22.22.0 or higher. However, NVM is useful if:
+
+- You work on multiple projects with different Node.js versions
+- You want to easily switch between versions
+
+### Do I have to use VS Code?
+
+No, but it's recommended. The project includes VS Code-specific:
+
+- Extension recommendations
+- Workspace settings
+- Debug configurations
+- Task definitions
+
+You can use any IDE, but you'll need to configure it yourself.
+
+### What if I skip creating the .env file?
+
+Tests will use default values from the framework, which should work fine. However:
+
+- You won't be able to customize your local environment
+- Debug logging will be disabled
+- Some configuration options won't be available
+
+### Can I modify .env.example directly?
+
+**No!** Always work with `.env` instead:
+
+- `.env.example` is tracked in Git (affects everyone)
+- `.env` is gitignored (your personal settings)
+- Copy `.env.example` → `.env`, then modify `.env`
+
+### Why is DEBUG commented out in .env.example?
+
+Debug logging can cause process termination issues (EPIPE errors). It's disabled by default for stability. Enable it only when actively debugging:
+
+```dotenv
+DEBUG=framework:*,test:*
+```
+
+---
+
+## Troubleshooting
+
+### "Command not found: npm"
+
+Node.js not installed or not in PATH. Reinstall Node.js or restart your terminal.
+
+### "ENOENT: no such file or directory"
+
+You likely skipped `npx playwright install`. Run it now.
+
+### "ERROR: Cannot find module"
+
+Dependencies not installed. Run `npm install`.
+
+### ".env file missing" warnings
+
+Create your `.env` file: `cp .env.example .env`
+
+### Tests hanging or not terminating
+
+Check if DEBUG is enabled in your `.env`. Comment it out:
+
+```dotenv
+# DEBUG=framework:*,test:*
+```
+
+For more issues, see the comprehensive [Troubleshooting Guide](TROUBLESHOOTING.md).
 
 ---
 
 ## Related Documentation
 
-- [Running Tests](RUNNING-TESTS.md) - Complete guide to executing tests with various options
-- [Writing Tests](WRITING-TESTS.md) - Learn Gherkin syntax and create feature files
-- [Glossary](GLOSSARY.md) - BDD, Playwright, and testing terminology reference
-- [Learning Path](LEARNING-PATH.md) - Follow a structured 3-week intensive training program
-- [Contributing Guide](CONTRIBUTING.md) - Guidelines for contributing to PICKL
-- [Troubleshooting](TROUBLESHOOTING.md) - Solutions for common setup and execution issues
-- [Common Mistakes](COMMON-MISTAKES.md) - Avoid these 28 common pitfalls
+- [Running Tests](RUNNING-TESTS.md) - Test execution options (tags, browsers, files)
+- [Writing Tests](WRITING-TESTS.md) - Gherkin syntax and feature files
+- [Contributing Guide](CONTRIBUTING.md) - Contribution workflow and standards
+- [Troubleshooting](TROUBLESHOOTING.md) - Solutions for common issues
+- [Common Mistakes](COMMON-MISTAKES.md) - Avoid these 28 pitfalls
 
 [⬆️ Back to Top](#getting-started)

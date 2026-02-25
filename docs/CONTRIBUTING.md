@@ -20,6 +20,8 @@ Thank you for your interest in contributing to PICKL! This guide will help you s
 
 If you don't have write access to the repository, follow the fork workflow:
 
+> **📖 Planning to customize PICKL for your own use?** See the [Forking Guide](FORKING.md) for detailed instructions on configuring CI, keeping your fork updated, and more.
+
 #### 1. Fork the Repository
 
 1. Go to https://github.com/jedau/PICKL
@@ -157,15 +159,26 @@ nvm use
 # Install dependencies
 npm install
 
-# Copy environment template
-cp .env.example .env
+# Install Playwright browsers
+npx playwright install
 
-# Verify setup by running tests
+# Create your local environment file
+cp .env.example .env    # Mac/Linux
+copy .env.example .env  # Windows
+
+# Verify setup
 npm test
 
-# Generate and view report
+# Generate report
 npm run report
 ```
+
+**About `.env` vs `.env.example`:**
+
+- **`.env.example`** - Template committed to Git with safe default values
+- **`.env`** - Your personal config (gitignored, never committed)
+- The `.env` file lets you customize settings locally without affecting other contributors
+- Default values work out of the box - no modifications needed unless customizing
 
 **Git Hooks Setup:**
 
@@ -333,7 +346,7 @@ VS Code will prompt to install these recommended extensions:
 
 ### VS Code Extensions
 
-Install the recommended extensions for the best development experience (see [Getting Started - Extensions](GETTING-STARTED.md#5-finishing-touches)):
+Install the recommended extensions for the best development experience (see [Getting Started - Step 6](GETTING-STARTED.md#step-6-install-vs-code-extensions-recommended)):
 
 - **EditorConfig** - Maintain consistent coding styles
 - **ESLint** - JavaScript/TypeScript linting
@@ -510,8 +523,8 @@ npm run report
 
 **What it does:**
 
-1. Processes test results from `test-results/` directory
-2. Generates HTML report in `playwright-report/` directory
+1. Processes test results from `test-results/cucumber-report.json`
+2. Generates HTML report in `test-results/html-report/`
 3. Automatically opens report in default browser
 
 **When to use:**
@@ -857,44 +870,25 @@ Feature: Dropdown Selection
 
 ```typescript
 // test/steps/dropdown.steps.ts
-import { Given, When, Then } from '@cucumber/cucumber'
 import { expect } from '@playwright/test'
-import { ICustomWorld } from '../support/world.js'
+import { Given, When, Then } from '../support/step-helpers.js'
 import { DropdownPage } from '../../pages/DropdownPage.js'
 
-Given('I am on the dropdown page', async function (this: ICustomWorld) {
-  if (!this.page) {
-    throw new Error('Page is not initialized')
-  }
-
-  const dropdownPage = new DropdownPage(this.page)
+Given('I am on the dropdown page', async function () {
+  const dropdownPage = this.getPageObject(DropdownPage)
   await dropdownPage.goto()
 })
 
-When(
-  'I select option {string} from the dropdown',
-  async function (this: ICustomWorld, option: string) {
-    if (!this.page) {
-      throw new Error('Page is not initialized')
-    }
+When('I select option {string} from the dropdown', async function (option: string) {
+  const dropdownPage = this.getPageObject(DropdownPage)
+  await dropdownPage.selectOption(option)
+})
 
-    const dropdownPage = new DropdownPage(this.page)
-    await dropdownPage.selectOption(option)
-  },
-)
-
-Then(
-  'the selected option should be {string}',
-  async function (this: ICustomWorld, expectedOption: string) {
-    if (!this.page) {
-      throw new Error('Page is not initialized')
-    }
-
-    const dropdownPage = new DropdownPage(this.page)
-    const selectedOption = await dropdownPage.getSelectedOption()
-    expect(selectedOption).toBe(expectedOption)
-  },
-)
+Then('the selected option should be {string}', async function (expectedOption: string) {
+  const dropdownPage = this.getPageObject(DropdownPage)
+  const selectedOption = await dropdownPage.getSelectedOption()
+  expect(selectedOption).toBe(expectedOption)
+})
 ```
 
 4. **Test your changes**:
@@ -927,31 +921,61 @@ export async function wait(ms: number): Promise<void> {
 
 ### Adding Custom Step Definition Helpers
 
-To reduce duplication in step definitions, create helper functions:
+**✨ Recommended Pattern (Issue #123):** Use typed `Given`, `When`, `Then` wrappers with `this.getPageObject()`.
+
+All step definitions should use the typed wrappers from [`test/support/step-helpers.ts`](../test/support/step-helpers.ts). These wrappers automatically type `this` as `ICustomWorld`, and the World class provides `getPageObject()` and `getPage()` methods:
 
 ```typescript
-// test/support/step-helpers.ts
-import { ICustomWorld } from './world.js'
+import { Given, When, Then } from '../support/step-helpers.js'
+import { LoginPage } from '../../pages/LoginPage.js'
 
-/**
- * Get the page instance with validation
- */
-export function getPage(world: ICustomWorld) {
-  if (!world.page) {
+Given('I am on the login page', async function () {
+  const loginPage = this.getPageObject(LoginPage)
+  await loginPage.goto()
+})
+
+When('I enter username {string}', async function (username: string) {
+  const loginPage = this.getPageObject(LoginPage)
+  await loginPage.enterUsername(username)
+})
+```
+
+**Benefits:**
+
+- ✅ No need to type `this: ICustomWorld` explicitly - handled automatically
+- ✅ No need to pass `this` as parameter - use `this.getPageObject()` directly
+- ✅ Eliminates repetitive `if (!this.page)` checks
+- ✅ Reduces code from ~9 lines to ~2 lines per step
+- ✅ Provides clear error messages when page is not initialized
+- ✅ Type-safe with full TypeScript support and IntelliSense
+- ✅ Methods available on `this` context: `this.getPage()`, `this.getPageObject()`
+
+**Alternative: Use `this.getPage()` for direct page access:**
+
+If you need direct page access without a page object:
+
+```typescript
+import { When } from '../support/step-helpers.js'
+
+When('I wait for {int} milliseconds', async function (ms: number) {
+  const page = this.getPage()
+  await page.waitForTimeout(ms)
+})
+```
+
+**Legacy Pattern (Before Issue #123):**
+
+```typescript
+// ❌ Old pattern - DO NOT USE
+import { Given } from '@cucumber/cucumber'
+import { ICustomWorld } from '../support/world.js'
+
+Given('I am on the login page', async function (this: ICustomWorld) {
+  if (!this.page) {
     throw new Error('Page is not initialized')
   }
-  return world.page
-}
-
-/**
- * Usage in step definitions:
- */
-import { getPage } from '../support/step-helpers.js'
-
-Given('I am on the dropdown page', async function (this: ICustomWorld) {
-  const page = getPage(this)
-  const dropdownPage = new DropdownPage(page)
-  await dropdownPage.goto()
+  const loginPage = new LoginPage(this.page)
+  await loginPage.goto()
 })
 ```
 
@@ -994,31 +1018,38 @@ Given('I am on the dropdown page', async function (this: ICustomWorld) {
    })
    ```
 
-2. **Use Page Objects:**
+2. **Use Typed Wrappers with `this.getPageObject()` (Issue #123):**
 
    ```typescript
-   // Always use Page Objects in step definitions
-   Given('I am on the login page', async function (this: ICustomWorld) {
-     const page = getPage(this)
-     const loginPage = new LoginPage(page)
+   // ✅ Recommended: Use typed Given/When/Then with this.getPageObject()
+   import { Given, When } from '../support/step-helpers.js'
+
+   Given('I am on the login page', async function () {
+     const loginPage = this.getPageObject(LoginPage)
      await loginPage.goto()
+   })
+
+   When('I enter username {string}', async function (username: string) {
+     const loginPage = this.getPageObject(LoginPage)
+     await loginPage.enterUsername(username)
    })
    ```
 
 3. **Handle errors gracefully:**
+
    ```typescript
-   Then('I should see the success message', async function (this: ICustomWorld) {
+   import { Then } from '../support/step-helpers.js'
+
+   Then('I should see the success message', async function () {
      try {
-       const page = getPage(this)
-       const loginPage = new LoginPage(page)
+       const loginPage = this.getPageObject(LoginPage)
        const message = await loginPage.getFlashMessage()
        expect(message).toContain('success')
      } catch (error) {
        // Attach screenshot on failure
-       if (this.page) {
-         const screenshot = await this.page.screenshot()
-         this.attach(screenshot, 'image/png')
-       }
+       const page = this.getPage()
+       const screenshot = await page.screenshot()
+       this.attach(screenshot, 'image/png')
        throw error
      }
    })

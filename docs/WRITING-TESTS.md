@@ -4,6 +4,8 @@
 
 This is a refresher for writing effective tests using the Gherkin format.
 
+💡 **New to BDD?** Read [Why BDD?](WHY-BDD.md) to understand the benefits of Behavior-Driven Development and why we use Cucumber.
+
 ---
 
 Tests are written in a `.feature` file — a collection of behaviors you want to simulate. Scenarios are formed in BDD style, using Cucumber's Gherkin language in order to make tests less code-like and more human readable.

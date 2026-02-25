@@ -253,9 +253,6 @@ After test execution, PICKL automatically generates and opens an HTML report in 
 ```bash
 # Generate report from latest test results and open in browser
 npm run report
-
-# Generate report only (without opening)
-# Note: Report generation is automatic after npm test completes
 ```
 
 ### HTML Report Features

@@ -5,6 +5,7 @@
     "esbenp.prettier-vscode",
     "ms-playwright.playwright",
     "Gruntfuggly.todo-tree",
-    "cucumberopen.cucumber-official"
+    "cucumberopen.cucumber-official",
+    "nick-mandziak.vscode-cucumber-js-runner"
   ]
 }
