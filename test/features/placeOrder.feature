@@ -21,9 +21,6 @@ Feature: Place Order
     And I click the Proceed button
     Then I should see the order success message
 
-  # @positive
-  # Scenario: Successfully placing multiple products
-
 # // ----> Country and Terms & Conditions Page <---- //
 
   @negative
@@ -37,6 +34,9 @@ Feature: Place Order
     Then I should be navigated to the "Country and Terms & Conditions" page
     And I click the Proceed button
     Then I should see an error message
+
+  # @positive
+  # Scenario: Successfully placing multiple products
 
 
 
