@@ -19,6 +19,7 @@ This learning path is an intensive, hands-on program where you'll learn the PICK
 - Familiarity with web applications
 - Ability to commit to full-time learning for 3 weeks
 - A website/application you want to automate (discussed in Week 0)
+- **Recommended reading**: [Why BDD?](WHY-BDD.md) - Understand the benefits and philosophy
 
 ---
 
